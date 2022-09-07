@@ -1,0 +1,25 @@
+#php_value post_max_size 500M
+#php_value upload_max_filesize 500M
+#php_value memory_limit 500M
+
+#:Location /*.php
+#Use php56
+#:Location
+
+<IfModule mod_rewrite.c>
+#  Options +FollowSymlinks
+# Options +SymLinksIfOwnerMatch
+  RewriteEngine On
+ RewriteBase /admin/
+
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^.*$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# Yii rewrite
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    RewriteRule . index.php
+</IfModule>
+
+CGIPassAuth on

@@ -1,0 +1,102 @@
+.draggable_users,
+.sortable_users,
+.draggable_vehicles,
+.sortable_vehicles {
+	padding: 0;
+	margin: 0;
+	min-height: 10px;
+}
+.draggable_users {
+	padding-top: 13px;
+}
+.draggable_users li,
+.sortable_users li,
+.draggable_vehicles li,
+.sortable_vehicles li {
+	display: block;
+	/*padding: 4px 8px;*/
+	background: rgb(226, 220, 220);
+	color: #333;
+	border: 1px solid rgb(160, 160, 160);
+	border-bottom: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: 10px;
+	text-align: center;
+	margin-bottom: 0;
+	width: 100%;
+	box-sizing:border-box;
+}
+
+.draggable_users li:last-child,
+.sortable_users li:last-child,
+.draggable_vehicles li:last-child,
+.sortable_vehicles li:last-child {
+	border-bottom: 1px solid rgb(160, 160, 160);
+}
+
+.draggable_vehicles li,
+.sortable_vehicles li {
+	background: #cdf0f3;
+}
+
+.sortable_users li.ui-sortable-helper,
+.sortable_vehicles li.ui-sortable-helper {
+	max-width: 300px;
+}
+.sortable_users .sortable_item_wrap,
+.sortable_vehicles .sortable_item_wrap {
+	position: relative;
+	height: 100%;
+	padding: 0 8px;
+}
+.sortable_users .sortable_item_wrap .time_bg {
+	position: absolute;
+	height: 100%;
+	top: 0;
+	background: rgba(0,0,0,.3);
+}
+.planboard_drug_box .weekdays_list {
+	padding: 0;
+	margin: 0;
+}
+.weekdays_list {
+	position: absolute;
+	width:100%;
+}
+
+#w0-tab0 .weekdays_list{
+	padding-right:0;
+}
+.planboard_drug_box .weekdays_list li {
+	display: block;
+	float: left;
+	width: 14.287%;
+	text-align: center;
+	font-weight: bold;
+	font-size: 9px;
+	background-color: white;
+}
+.fc table.day-hours {
+	height: auto;
+	border: 1px solid;
+}
+.fc-day.fc-widget-content .day-hours td {
+	font-size: 0.6vw;
+	text-align: center;
+}
+.draggable_users .open_ekipa_modal,
+.draggable_users .delete_event_user,
+.draggable_vehicles .delete_event_vehicle,
+.draggable_vehicles .open_vehicle_modal {
+	display: none;
+}
+.fc_assigned_users .open_ekipa_modal,
+.fc_assigned_vehicles .open_vehicle_modal {
+	margin-right: 4px;
+}
+.planboard_drug_box .weekdays_list li.activeDayHeader {
+	background-color: #4ac74f;
+	color: white;
+}

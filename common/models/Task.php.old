@@ -1,0 +1,173 @@
+<?php
+
+namespace common\models;
+use backend\modules\permission\models\BasePermission;
+
+use common\helpers\ArrayHelper;
+use Yii;
+use \common\models\base\Task as BaseTask;
+use yii\web\UnprocessableEntityHttpException;
+
+/**
+ * This is the model class for table "task".
+ */
+class Task extends BaseTask
+{
+    const STATUS_NEW = 0;
+    const STATUS_DONE = 10;
+
+    public $userIds;
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+
+        $behaviors['link'] = [
+            'class' => \common\behaviors\LinkBehavior::className(),
+            'attributes' => [
+                'userIds',
+            ],
+            'relations' => [
+                'users',
+            ],
+            'modelClasses'=>[
+                'common\models\User',
+            ],
+        ];
+
+        return $behaviors;
+    }
+
+    public function rules()
+    {
+        $rules = [
+            [['userIds'], 'each', 'rule'=>['integer']]
+        ];
+        return array_merge(parent::rules(), $rules);
+    }
+
+    public function canDelete()
+    {
+        if ($this->creator_id==Yii::$app->user->getIdentity()->getId())
+            {
+                return true;
+            }
+        if (Yii::$app->user->can('menuTasksDelete'.BasePermission::SUFFIX[BasePermission::ALL])) {
+                return true;
+        }
+        return false;
+    }
+
+    public static function getStatusList()
+    {
+        $list = [
+        	null => Yii::t('app', 'Domyślny'),
+            self::STATUS_NEW => Yii::t('app', 'Niewykonany'),
+            self::STATUS_DONE => Yii::t('app', 'Wykonany'),
+        ];
+        return $list;
+    }
+
+    public function getStatusLabel()
+    {
+        $list = self::getStatusList();
+        $index = $this->status;
+        return ArrayHelper::getValue($list, $index, UNDEFINDED_STRING);
+    }
+
+    public function sendNotifications()
+    {
+        foreach ($this->users as $user)
+        {
+            if ($this->remind_email)
+            {
+                Notification::sendUserNotificationsType($user, Notification::USER_NEW_TASK, [$this, $user], "mail"); 
+            }
+            if ($this->remind_sms)
+            {
+                Notification::sendUserNotificationsType($user, Notification::USER_NEW_TASK, [$this, $user], "sms"); 
+            }
+            if ($this->remind_push)
+            {
+                Notification::sendUserNotificationsType($user, Notification::USER_NEW_TASK, [$this, $user], "push"); 
+            }
+                  
+        }
+    }
+
+
+    public function getPlaceholderMap()
+    {
+        $map = [
+            'tytul' => strip_tags($this->title),
+            'opis' => strip_tags($this->content),
+            'termin' => $this->end_time,
+            'creator.username' => $this->creator->username,
+            'creator.imie' => $this->creator->first_name,
+            'creator.nazwisko' => $this->creator->last_name,
+        ];
+
+        return $map;
+    }
+
+    public function changeStatus() {
+        $userId = Yii::$app->user->getIdentity()->getId();
+        if ($this->user_id == $userId) {
+            if ($this->status == self::STATUS_DONE) {
+                $this->status = self::STATUS_NEW;
+            }
+            else {
+                $this->status = self::STATUS_DONE;
+            }
+            return $this->save();
+        }
+        return false;
+    }
+
+    public function setStatus($status) {
+        $userId = Yii::$app->user->getIdentity()->getId();
+        if ($this->user_id == $userId) {
+            if (is_numeric($status) && $status == self::STATUS_DONE || $status == self::STATUS_NEW) {
+                $this->status = $status;
+                return $this->save();
+            }
+        }
+        throw new UnprocessableEntityHttpException();
+    }
+
+    public function addComment($comment) {
+        $this->content .= "<p>".$comment."</p>";
+        return $this->save();
+    }
+
+    public function getSmallContent()
+    {
+        $content = str_replace("<p>", "",$this->content);
+        $content = str_replace("</p>", "",$content);
+        if (strlen($content)>100)
+            return mb_substr($content, 0, 100)."...";
+        else
+            return $content;
+    }
+
+    public function getFullContent()
+    {
+        $content = str_replace("<p>", "",$this->content);
+        $content = str_replace("</p>", "<br/>",$content);
+        return $content;        
+    }
+
+    public function isMine()
+    {
+        $return = false;
+        foreach ($this->users as $user)
+        {
+            if ($user->id==Yii::$app->user->getIdentity()->getId())
+            {
+                $return = true;
+            }
+        }
+        return $return;
+    }
+
+}

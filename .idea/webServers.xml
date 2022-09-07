@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="4015801b-82c5-4727-8eda-8fdd0527319e" name="Wizja" url="http://145.239.30.83">
+        <fileTransfer rootFolder="/wizjatest.newsystems.pl" host="145.239.30.83" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

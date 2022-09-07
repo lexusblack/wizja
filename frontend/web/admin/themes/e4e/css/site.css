@@ -1,0 +1,22 @@
+@import "../../../../themes/e4e/css/site.css";
+.fc-day-grid-event {
+  overflow: hidden;
+}
+.fc-day-grid-event > div {
+  top: 0;
+}
+#permissions-manage table {
+  margin-bottom: 0;
+}
+#permissions-manage table td {
+  padding: 0;
+}
+#permissions-manage table .form-group {
+  margin: 0;
+}
+#permissions-manage table .form-group .checkbox {
+  margin: 0;
+}
+#permissions-manage table .form-group .help-block {
+  display: none;
+}

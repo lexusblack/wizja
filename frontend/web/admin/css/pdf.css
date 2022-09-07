@@ -1,0 +1,50 @@
+.half_page {
+    width: 50%;
+    float: left;
+    padding-top: 50px;
+}
+
+.whole_page {
+    margin-top: 50px;
+    width: 100%;
+}
+
+.smaller {
+    font-size: 11px;
+}
+
+.width-1-5 {
+    float: left;
+    width: 18%;
+    padding-left: 10px;
+
+}
+
+.width-1-2 {
+    float: left;
+    width: 45%;
+    padding-left: 10px;
+
+}
+
+.width-1-10 {
+    float: left;
+    width: 10%;
+    padding-left: 10px;
+
+}
+
+.right-border {
+    border-right: 0.5px solid black;
+}
+.bottom-border {
+    border-bottom: 0.5px solid black;
+}
+
+.padding-top {
+    padding-top: 5px;
+}
+
+hr {
+  height: 2px;
+}
